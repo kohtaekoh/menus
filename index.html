@@ -38,21 +38,38 @@
       const textureLoader = new THREE.TextureLoader();
       const cubeTexture = textureLoader.load("img/goryeoseal.png");
       const material = new THREE.MeshBasicMaterial({ map: cubeTexture });
-
       const geometry = new THREE.BoxGeometry();
       const cube = new THREE.Mesh(geometry, material);
       scene.add(cube);
 
       camera.position.z = 5;
 
+      let isInteracting = false;
+
       function animate() {
         requestAnimationFrame(animate);
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+        if (isInteracting) {
+          // Change rotation speed or direction
+          cube.rotation.x += 0.05;
+          cube.rotation.y += 0.05;
+        } else {
+          cube.rotation.x += 0.01;
+          cube.rotation.y += 0.01;
+        }
         renderer.render(scene, camera);
       }
 
       animate();
+
+      // Event listener for mouse click
+      renderer.domElement.addEventListener("click", () => {
+        isInteracting = !isInteracting;
+      });
+
+      // Event listener for touch (mobile devices)
+      renderer.domElement.addEventListener("touchstart", () => {
+        isInteracting = !isInteracting;
+      });
     </script>
   </body>
 </html>
