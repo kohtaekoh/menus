@@ -30,7 +30,7 @@
         1000
       );
       const renderer = new THREE.WebGLRenderer();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(0.5*window.innerWidth, 0.5*window.innerHeight);
       document
         .getElementById("cube-container")
         .appendChild(renderer.domElement);
