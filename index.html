@@ -1,22 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Goryeo Society</title>
-    <link rel="stylesheet" href="./style.css">
-    <!-- <link rel="icon" href="./favicon.ico" type="image/x-icon"> -->
-    <link rel="stylesheet" href="styles/main.css">
-
-
+    <style>
+      body {
+        margin: 0;
+      }
+      .center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+    </style>
   </head>
-  <body style="background-color:#000000;">
+  <body>
     <div class="center main">
-      <div>
-        <img src="img/goryeoseal.png" alt="Goryeo Seal" width="64px" height="64px">
-      </div>
+      <div id="cube-container"></div>
     </div>
-	<script src="index.js"></script>
+
+    <script type="module">
+      import * as THREE from "https://unpkg.com/three@0.139.2/build/three.module.js";
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document
+        .getElementById("cube-container")
+        .appendChild(renderer.domElement);
+
+      const textureLoader = new THREE.TextureLoader();
+      const cubeTexture = textureLoader.load("img/goryeoseal.png");
+      const material = new THREE.MeshBasicMaterial({ map: cubeTexture });
+
+      const geometry = new THREE.BoxGeometry();
+      const cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+
+      camera.position.z = 5;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+        renderer.render(scene, camera);
+      }
+
+      animate();
+    </script>
   </body>
 </html>
